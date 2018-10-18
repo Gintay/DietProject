@@ -2,25 +2,25 @@ package com.dietservice.dao.impl;
 
 import com.dietservice.dao.DishDAO;
 import com.dietservice.domain.Dish;
-import org.hibernate.SessionFactory;
+import com.dietservice.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class DishDAOImpl implements DishDAO {
 
-    private SessionFactory sessionFactory;
+    private DishRepository dishRepository;
 
     @Autowired
-    public DishDAOImpl(SessionFactory sessionFactory){
-        this.sessionFactory = sessionFactory;
+    public DishDAOImpl(DishRepository dishRepository){
+        this.dishRepository = dishRepository;
     }
 
     @Override
     public Dish get(Long id) {
-        return null;
+        return dishRepository.findOne(id);
     }
 
     @Override
-    public void save(Dish dish) {
-
+    public Dish save(Dish dish) {
+        return dishRepository.save(dish);
     }
 }

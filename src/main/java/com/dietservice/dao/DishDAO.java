@@ -4,5 +4,5 @@ import com.dietservice.domain.Dish;
 
 public interface DishDAO {
     Dish get(Long id);
-    void save(Dish dish);
+    Dish save(Dish dish);
 }
