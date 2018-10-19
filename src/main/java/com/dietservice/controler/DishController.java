@@ -3,6 +3,7 @@ package com.dietservice.controler;
 import com.dietservice.domain.Dish;
 import com.dietservice.domain.Nutrition;
 import com.dietservice.service.NutritionService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,8 @@ public class DishController {
     }
 
     @GetMapping(value = "/summarycalories/{date}")
-    public long getSummaryCalories(@PathVariable("date") Date date){
-        return nutritionService.getSummaryCallories(date);
+    public String getSummaryCalories(@PathVariable("date") Date date){
+        return nutritionService.getSummaryCallories(date).toString();
     }
 
     @GetMapping(value = "/dish/{id}")

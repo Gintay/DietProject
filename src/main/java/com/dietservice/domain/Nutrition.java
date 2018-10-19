@@ -1,9 +1,11 @@
 package com.dietservice.domain;
 
+import com.dietservice.utils.DietServiceProperties;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "nutrition")
+@Table(name = DietServiceProperties.NUTRITION_TABLE_NAME)
 public class Nutrition {
 
   @Id

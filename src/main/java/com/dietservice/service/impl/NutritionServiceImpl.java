@@ -5,6 +5,7 @@ import com.dietservice.dao.nutrition.NutritionDAO;
 import com.dietservice.domain.Dish;
 import com.dietservice.domain.Nutrition;
 import com.dietservice.service.NutritionService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class NutritionServiceImpl implements NutritionService {
     }
 
     @Override
-    public long getSummaryCallories(Date date) {
+    public JSONObject getSummaryCallories(Date date) {
         List<Nutrition> nutritions = nutritionDAO.getAllByDate(date);
         long summaryResult = 0;
         for(Nutrition nutrition : nutritions){
@@ -43,7 +44,10 @@ public class NutritionServiceImpl implements NutritionService {
             summaryResult += dishWeight / 100 * dish.getCalories();
         }
 
-        return summaryResult;
+        JSONObject resultJSON = new JSONObject();
+        resultJSON.append("calories", summaryResult);
+
+        return resultJSON;
     }
 
     @Override
