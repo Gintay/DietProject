@@ -1,6 +1,6 @@
-package com.dietservice.dao.impl;
+package com.dietservice.dao.dish.impl;
 
-import com.dietservice.dao.DishDAO;
+import com.dietservice.dao.dish.DishDAO;
 import com.dietservice.domain.Dish;
 import com.dietservice.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;

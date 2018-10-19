@@ -1,4 +1,4 @@
-package com.dietservice.dao;
+package com.dietservice.dao.dish;
 
 import com.dietservice.domain.Dish;
 

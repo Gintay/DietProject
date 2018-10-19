@@ -1,27 +1,42 @@
 package com.dietservice.controler;
 
 import com.dietservice.domain.Dish;
-import com.dietservice.service.DishService;
+import com.dietservice.domain.Nutrition;
+import com.dietservice.service.NutritionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+
 @RestController
-@RequestMapping("/dishs")
+@RequestMapping("/nutrition")
 public class DishController {
 
-    private DishService dishService;
+    private NutritionService nutritionService;
 
-    public DishController(DishService dishService){
-        this.dishService = dishService;
+    @Autowired
+    public DishController(NutritionService nutritionService){
+        this.nutritionService = nutritionService;
     }
 
     @GetMapping(value = "/{id}")
-    public Dish getDish(@PathVariable("id") Long id){
-        return dishService.getDish(id);
+    public Nutrition getNutrition(@PathVariable("id") Long id){
+        return nutritionService.getNutrition(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/summarycalories/{date}")
+    public long getSummaryCalories(@PathVariable("date") Date date){
+        return nutritionService.getSummaryCallories(date);
+    }
+
+    @GetMapping(value = "/dish/{id}")
+    public Dish getDish(@PathVariable("id") Long id){
+        return nutritionService.getDish(id);
+    }
+
+    @PostMapping(value = "/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dish saveDish(@RequestBody Dish dish){
-        return dishService.saveDish(dish);
+        return nutritionService.saveDish(dish);
     }
 }
