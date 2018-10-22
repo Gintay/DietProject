@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.util.Calendar;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
-@WebServlet(urlPatterns = "/consumedCalories")
+@WebServlet(urlPatterns = "/consumedCalories/*")
 public class ConsumedCaloriesServlet extends HttpServlet {
 
     private NutritionService nutritionService;
@@ -25,13 +27,21 @@ public class ConsumedCaloriesServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet (HttpServletRequest req,
-                          HttpServletResponse resp)
+    protected void doGet (HttpServletRequest request,
+                          HttpServletResponse response)
             throws ServletException, IOException {
 
-        Date date = new Date(Calendar.getInstance().getTimeInMillis()); //TODO get date
-        PrintWriter writer = resp.getWriter();
-        writer.println(nutritionService.getSummaryCallories(date));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String pathParameters = request.getPathInfo();
+
+        Date date = null;
+        try {
+            date = format.parse(pathParameters);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        PrintWriter writer = response.getWriter();
+        writer.println(nutritionService.getSummaryCallories(new java.sql.Date(date.getTime())));
     }
 }
 
