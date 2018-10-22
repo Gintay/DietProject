@@ -35,6 +35,11 @@ public class NutritionServiceImpl implements NutritionService {
     }
 
     @Override
+    public Dish getNutritionDish(Long id) {
+        return nutritionDAO.get(id).getDish();
+    }
+
+    @Override
     public JSONObject getSummaryCallories(Date date) {
         List<Nutrition> nutritions = nutritionDAO.getAllByDate(date);
         long summaryResult = 0;

@@ -9,6 +9,7 @@ import java.sql.Date;
 public interface NutritionService {
     Nutrition getNutrition(Long id);
     Nutrition saveNutrition(Nutrition nutrition);
+    Dish getNutritionDish(Long id);
     JSONObject getSummaryCallories(Date date);
     Dish getDish(Long id);
     Dish saveDish(Dish dish);

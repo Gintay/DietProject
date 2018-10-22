@@ -26,10 +26,10 @@ public class DishController {
         return nutritionService.getNutrition(id);
     }
 
-    @GetMapping(value = "/summarycalories/{date}")
-    public String getSummaryCalories(@PathVariable("date") Date date){
-        return nutritionService.getSummaryCallories(date).toString();
-    }
+//    @GetMapping(value = "/summarycalories/{date}")
+//    public String getSummaryCalories(@PathVariable("date") Date date){
+//        return nutritionService.getSummaryCallories(date).toString();
+//    }
 
     @GetMapping(value = "/dish/{id}")
     public Dish getDish(@PathVariable("id") Long id){
