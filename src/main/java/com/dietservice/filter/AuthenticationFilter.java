@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.util.Base64;
 
 @Component
-@Order(1)
 public class AuthenticationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -21,18 +20,23 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 
+        boolean passError = true;
+
         String base64Password = request.getParameter("password");
         if (base64Password != null) {
             byte[] decodedBytes = Base64.getDecoder().decode(base64Password); // YWRtaW4=
             String decodedPassword = new String(decodedBytes, "UTF-8");
 
             if (decodedPassword.equals(DietServiceProperties.AUTHENTICATION_PASSWORD)){
+                passError = false;
                 chain.doFilter(request, response);
-            } else {
-                PrintWriter out = response.getWriter();
-                out.print("username or password error!");
-                out.close();
             }
+        }
+
+        if (passError){
+            PrintWriter out = response.getWriter();
+            out.print("Username or password error!");
+            out.close();
         }
     }
 

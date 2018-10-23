@@ -4,6 +4,7 @@ import com.dietservice.service.NutritionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-@WebServlet(urlPatterns = "/consumedCalories/*")
 public class ConsumedCaloriesServlet extends HttpServlet {
 
     private NutritionService nutritionService;
@@ -32,8 +31,9 @@ public class ConsumedCaloriesServlet extends HttpServlet {
             throws ServletException, IOException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String pathParameters = request.getPathInfo();
+        String pathInfo = request.getPathInfo();
 
+        String pathParameters = pathInfo.replaceAll("/", "");
         Date date = null;
         try {
             date = format.parse(pathParameters);
