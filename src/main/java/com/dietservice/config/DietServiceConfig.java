@@ -12,6 +12,7 @@ import com.dietservice.service.NutritionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,9 @@ public class DietServiceConfig {
     }
 
     @Bean
-    public ServletRegistrationBean servletRegistrationBean(@Autowired NutritionService nutritionService){
-        return new ServletRegistrationBean(new ConsumedCaloriesServlet(nutritionService),"/consumedCalories/*");
+    public ServletRegistrationBean servletRegistrationBean(@Autowired NutritionService nutritionService,
+                                                           @Autowired ApplicationEventPublisher applicationEventPublisher){
+        return new ServletRegistrationBean(new ConsumedCaloriesServlet(nutritionService, applicationEventPublisher),
+                "/consumedCalories/*");
     }
 }

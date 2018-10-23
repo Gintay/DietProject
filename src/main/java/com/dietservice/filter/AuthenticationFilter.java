@@ -1,7 +1,6 @@
 package com.dietservice.filter;
 
-import com.dietservice.utils.DietServiceProperties;
-import org.springframework.core.annotation.Order;
+import com.dietservice.utils.DietServiceConstants;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -27,7 +26,7 @@ public class AuthenticationFilter implements Filter {
             byte[] decodedBytes = Base64.getDecoder().decode(base64Password); // YWRtaW4=
             String decodedPassword = new String(decodedBytes, "UTF-8");
 
-            if (decodedPassword.equals(DietServiceProperties.AUTHENTICATION_PASSWORD)){
+            if (decodedPassword.equals(DietServiceConstants.AUTHENTICATION_PASSWORD)){
                 passError = false;
                 chain.doFilter(request, response);
             }

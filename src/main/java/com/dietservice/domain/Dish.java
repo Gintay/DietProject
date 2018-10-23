@@ -1,6 +1,6 @@
 package com.dietservice.domain;
 
-import com.dietservice.utils.DietServiceProperties;
+import com.dietservice.utils.DietServiceConstants;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Table(name = DietServiceProperties.DISH_TABLE_NAME)
+@Table(name = DietServiceConstants.DISH_TABLE_NAME)
 public class Dish {
 
   @Id

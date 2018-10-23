@@ -1,7 +1,9 @@
 package com.dietservice.controler;
 
 import com.dietservice.service.NutritionService;
+import com.dietservice.utils.listener.RequestEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 
 import javax.servlet.ServletException;
 
@@ -19,16 +21,21 @@ import java.util.Date;
 public class ConsumedCaloriesServlet extends HttpServlet {
 
     private NutritionService nutritionService;
+    private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public ConsumedCaloriesServlet(NutritionService nutritionService){
+    public ConsumedCaloriesServlet(NutritionService nutritionService, ApplicationEventPublisher applicationEventPublisher){
         this.nutritionService = nutritionService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
     protected void doGet (HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
+
+        RequestEvent requestEvent = new RequestEvent(this, request);
+        applicationEventPublisher.publishEvent(requestEvent);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String pathInfo = request.getPathInfo();
