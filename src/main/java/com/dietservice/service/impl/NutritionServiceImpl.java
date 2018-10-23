@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.sql.Date;
 import java.util.List;
 
@@ -40,7 +42,27 @@ public class NutritionServiceImpl implements NutritionService {
     }
 
     @Override
-    public JSONObject getSummaryCallories(Date date) {
+    public JSONObject getSummaryCalloriesJSON(Date date) {
+        long summaryResult = getSummaryCallories(date);
+
+        JSONObject resultJSON = new JSONObject();
+        resultJSON.append("calories", summaryResult);
+
+        return resultJSON;
+    }
+
+    public BufferedImage getSummaryCaloriesImage(Date date){
+        long summaryResult = getSummaryCallories(date);
+
+        BufferedImage bufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = bufferedImage.getGraphics();
+
+        graphics.drawString(String.valueOf(summaryResult), 20, 20);
+
+        return bufferedImage;
+    }
+
+    private long getSummaryCallories(Date date){
         List<Nutrition> nutritions = nutritionDAO.getAllByDate(date);
         long summaryResult = 0;
         for(Nutrition nutrition : nutritions){
@@ -49,10 +71,7 @@ public class NutritionServiceImpl implements NutritionService {
             summaryResult += dishWeight / 100 * dish.getCalories();
         }
 
-        JSONObject resultJSON = new JSONObject();
-        resultJSON.append("calories", summaryResult);
-
-        return resultJSON;
+        return summaryResult;
     }
 
     @Override

@@ -5,13 +5,15 @@ import com.dietservice.utils.listener.RequestEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import java.text.ParseException;
@@ -41,14 +43,26 @@ public class ConsumedCaloriesServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         String pathParameters = pathInfo.replaceAll("/", "");
-        Date date = null;
+        Date utilDate = null;
+
         try {
-            date = format.parse(pathParameters);
+            utilDate = format.parse(pathParameters);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        PrintWriter writer = response.getWriter();
-        writer.println(nutritionService.getSummaryCallories(new java.sql.Date(date.getTime())));
+
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        String contentType = request.getContentType();
+        if (contentType != null && contentType.equalsIgnoreCase("image/png")){
+            BufferedImage bufferedImage = nutritionService.getSummaryCaloriesImage(sqlDate);
+            OutputStream out = response.getOutputStream();
+            ImageIO.write(bufferedImage, "png", out);
+            out.close();
+        } else {
+            PrintWriter writer = response.getWriter();
+            writer.println(nutritionService.getSummaryCalloriesJSON(sqlDate));
+            writer.close();
+        }
     }
 }
 

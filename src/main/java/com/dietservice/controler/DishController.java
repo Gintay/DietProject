@@ -4,7 +4,6 @@ import com.dietservice.domain.Dish;
 import com.dietservice.domain.Nutrition;
 import com.dietservice.service.NutritionService;
 import com.dietservice.utils.listener.RequestEvent;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.MediaType;
@@ -28,23 +27,30 @@ public class DishController {
 
     @GetMapping(value = "/{id}")
     public Nutrition getNutrition(@PathVariable("id") Long id, HttpServletRequest request){
-        RequestEvent requestEvent = new RequestEvent(this, request);
-        applicationEventPublisher.publishEvent(requestEvent);
+        publishRequestEvent(request);
         return nutritionService.getNutrition(id);
     }
 
-//    @GetMapping(value = "/summarycalories/{date}")
-//    public String getSummaryCalories(@PathVariable("date") Date date){
-//        return nutritionService.getSummaryCallories(date).toString();
-//    }
+    @PostMapping(value = "/nutrition", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Nutrition saveNutrition(@RequestBody Nutrition nutrition, HttpServletRequest request){
+        publishRequestEvent(request);
+        return nutritionService.saveNutrition(nutrition);
+    }
 
     @GetMapping(value = "/dish/{id}")
-    public Dish getDish(@PathVariable("id") Long id){
+    public Dish getDish(@PathVariable("id") Long id, HttpServletRequest request){
+        publishRequestEvent(request);
         return nutritionService.getDish(id);
     }
 
     @PostMapping(value = "/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Dish saveDish(@RequestBody Dish dish){
+    public Dish saveDish(@RequestBody Dish dish, HttpServletRequest request){
+        publishRequestEvent(request);
         return nutritionService.saveDish(dish);
+    }
+
+    private void publishRequestEvent(HttpServletRequest request){
+        RequestEvent requestEvent = new RequestEvent(this, request);
+        applicationEventPublisher.publishEvent(requestEvent);
     }
 }
