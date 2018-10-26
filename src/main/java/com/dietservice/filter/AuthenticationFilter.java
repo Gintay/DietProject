@@ -12,7 +12,6 @@ import java.util.Base64;
 public class AuthenticationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override

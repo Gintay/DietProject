@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
-@RequestMapping("/nutrition")
+//@RequestMapping("/nutrition")
 public class DishController {
 
     private NutritionService nutritionService;
@@ -25,10 +25,16 @@ public class DishController {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/nutrition/{id}")
     public Nutrition getNutrition(@PathVariable("id") Long id, HttpServletRequest request){
         publishRequestEvent(request);
         return nutritionService.getNutrition(id);
+    }
+
+    @GetMapping(value = "/nutrition/dish/{id}")
+    public Dish getNutritionDish (@PathVariable("id") Long id, HttpServletRequest request) {
+        publishRequestEvent(request);
+        return nutritionService.getNutritionDish(id);
     }
 
     @PostMapping(value = "/nutrition", consumes = MediaType.APPLICATION_JSON_VALUE)
