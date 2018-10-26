@@ -4,6 +4,8 @@ import com.dietservice.dao.dish.DishDAO;
 import com.dietservice.dao.nutrition.NutritionDAO;
 import com.dietservice.domain.Dish;
 import com.dietservice.domain.Nutrition;
+import com.dietservice.dto.DishDto;
+import com.dietservice.dto.NutritionDto;
 import com.dietservice.service.NutritionService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +29,23 @@ public class NutritionServiceImpl implements NutritionService {
     }
 
     @Override
-    public Nutrition getNutrition(Long id) {
-        return nutritionDAO.get(id);
+    public NutritionDto getNutrition(Long id) {
+        NutritionDto nutritionDto = new NutritionDto(nutritionDAO.get(id));
+        return nutritionDto;
     }
 
     @Override
-    public Nutrition saveNutrition(Nutrition nutrition) {
-        return nutritionDAO.save(nutrition);
+    public NutritionDto saveNutrition(NutritionDto nutritionDto) {
+        Nutrition nutrition = new Nutrition(nutritionDto);
+        Nutrition resultNutrition = nutritionDAO.save(nutrition);
+        NutritionDto resultNutritionDto1 = new NutritionDto(resultNutrition);
+        return resultNutritionDto1;
     }
 
     @Override
-    public Dish getNutritionDish(Long id) {
-        return nutritionDAO.get(id).getDish();
+    public DishDto getNutritionDish(Long id) {
+        DishDto dishDto = new DishDto(nutritionDAO.get(id).getDish());
+        return dishDto;
     }
 
     @Override
@@ -51,6 +58,7 @@ public class NutritionServiceImpl implements NutritionService {
         return resultJSON;
     }
 
+    @Override
     public BufferedImage getSummaryCaloriesImage(Date date){
         long summaryResult = getSummaryCallories(date);
 
@@ -66,21 +74,28 @@ public class NutritionServiceImpl implements NutritionService {
         List<Nutrition> nutritions = nutritionDAO.getAllByDate(date);
         long summaryResult = 0;
         for(Nutrition nutrition : nutritions){
-            Dish dish = nutrition.getDish();
             long dishWeight = nutrition.getWeight();
-            summaryResult += dishWeight / 100 * dish.getCalories();
+            Dish dish = nutrition.getDish();
+            long calories = dish.getCalories();
+            if (calories > 0){
+                summaryResult += dishWeight / 100 * calories;
+            }
         }
 
         return summaryResult;
     }
 
     @Override
-    public Dish getDish(Long id) {
-        return dishDAO.get(id);
+    public DishDto getDish(Long id) {
+        DishDto dishDto = new DishDto(dishDAO.get(id));
+        return dishDto;
     }
 
     @Override
-    public Dish saveDish(Dish dish) {
-        return dishDAO.save(dish);
+    public DishDto saveDish(DishDto dishDto) {
+        Dish dish = new Dish(dishDto);
+        Dish resultDish = dishDAO.save(dish);
+        DishDto resultDishDto = new DishDto(resultDish);
+        return resultDishDto;
     }
 }

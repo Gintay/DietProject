@@ -33,36 +33,41 @@ public class ConsumedCaloriesServlet extends HttpServlet {
 
     @Override
     protected void doGet (HttpServletRequest request,
-                          HttpServletResponse response)
-            throws ServletException, IOException {
+                          HttpServletResponse response) throws ServletException, IOException {
 
-        RequestEvent requestEvent = new RequestEvent(this, request);
-        applicationEventPublisher.publishEvent(requestEvent);
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String pathInfo = request.getPathInfo();
-
-        String pathParameters = pathInfo.replaceAll("/", "");
-        Date utilDate = null;
+        String pathInfo = "";
 
         try {
-            utilDate = format.parse(pathParameters);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            RequestEvent requestEvent = new RequestEvent(this, request);
+            applicationEventPublisher.publishEvent(requestEvent);
 
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        String contentType = request.getContentType();
-        if (contentType != null && contentType.equalsIgnoreCase("image/png")){
-            BufferedImage bufferedImage = nutritionService.getSummaryCaloriesImage(sqlDate);
-            OutputStream out = response.getOutputStream();
-            ImageIO.write(bufferedImage, "png", out);
-            out.close();
-        } else {
-            PrintWriter writer = response.getWriter();
-            writer.println(nutritionService.getSummaryCalloriesJSON(sqlDate));
-            writer.close();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            pathInfo = request.getPathInfo();
+
+            String pathParameters = pathInfo.replaceAll("/", "");
+            Date utilDate = format.parse(pathParameters);
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            String contentType = request.getContentType();
+            if (contentType != null && contentType.equalsIgnoreCase("image/png")){
+                BufferedImage bufferedImage = nutritionService.getSummaryCaloriesImage(sqlDate);
+                OutputStream out = response.getOutputStream();
+                ImageIO.write(bufferedImage, "png", out);
+                out.close();
+            } else {
+                writeResponse(response, nutritionService.getSummaryCalloriesJSON(sqlDate));
+            }
+        } catch (ParseException exc) {
+            writeResponse(response, String.format("Failed to parse date %s. %s", pathInfo,  exc.getMessage()));
+        } catch (NullPointerException exc) {
+            String errorMessage = "Failed to get summary results. " + exc.getMessage();
+            writeResponse(response, errorMessage);
         }
+    }
+
+    private void writeResponse(HttpServletResponse response, Object responseMessage) throws IOException {
+        PrintWriter writer = response.getWriter();
+        writer.println(responseMessage);
+        writer.close();
     }
 }
 

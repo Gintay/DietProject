@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Component
@@ -23,7 +24,7 @@ public class AuthenticationFilter implements Filter {
         String base64Password = request.getParameter("password");
         if (base64Password != null) {
             byte[] decodedBytes = Base64.getDecoder().decode(base64Password); // YWRtaW4=
-            String decodedPassword = new String(decodedBytes, "UTF-8");
+            String decodedPassword = new String(decodedBytes, StandardCharsets.UTF_8);
 
             if (decodedPassword.equals(DietServiceConstants.AUTHENTICATION_PASSWORD)){
                 passError = false;
@@ -40,6 +41,5 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void destroy() {
-
     }
 }

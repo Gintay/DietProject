@@ -1,5 +1,6 @@
 package com.dietservice.domain;
 
+import com.dietservice.dto.NutritionDto;
 import com.dietservice.utils.DietServiceConstants;
 
 import javax.persistence.*;
@@ -13,10 +14,21 @@ public class Nutrition {
   private long id;
   private java.sql.Date date;
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @PrimaryKeyJoinColumn
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Dish.class)
+  @JoinColumn(name = "dishid", referencedColumnName = "id")
   private Dish dish;
+
   private long weight;
+
+  public Nutrition(){
+  }
+
+  public Nutrition(NutritionDto nutritionDto){
+      this.id = nutritionDto.getId();
+      this.date = nutritionDto.getDate();
+      this.dish = new Dish(nutritionDto.getDishDto());
+      this.weight = nutritionDto.getWeight();
+  }
 
   public long getId() {
     return id;

@@ -1,7 +1,7 @@
 package com.dietservice.controler;
 
-import com.dietservice.domain.Dish;
-import com.dietservice.domain.Nutrition;
+import com.dietservice.dto.DishDto;
+import com.dietservice.dto.NutritionDto;
 import com.dietservice.service.NutritionService;
 import com.dietservice.utils.listener.RequestEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
-//@RequestMapping("/nutrition")
 public class DishController {
 
     private NutritionService nutritionService;
@@ -26,33 +25,33 @@ public class DishController {
     }
 
     @GetMapping(value = "/nutrition/{id}")
-    public Nutrition getNutrition(@PathVariable("id") Long id, HttpServletRequest request){
+    public NutritionDto getNutrition(@PathVariable("id") Long id, HttpServletRequest request){
         publishRequestEvent(request);
         return nutritionService.getNutrition(id);
     }
 
     @GetMapping(value = "/nutrition/dish/{id}")
-    public Dish getNutritionDish (@PathVariable("id") Long id, HttpServletRequest request) {
+    public DishDto getNutritionDish (@PathVariable("id") Long id, HttpServletRequest request) {
         publishRequestEvent(request);
         return nutritionService.getNutritionDish(id);
     }
 
     @PostMapping(value = "/nutrition", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Nutrition saveNutrition(@RequestBody Nutrition nutrition, HttpServletRequest request){
+    public NutritionDto saveNutrition(@RequestBody NutritionDto nutritionDto, HttpServletRequest request){
         publishRequestEvent(request);
-        return nutritionService.saveNutrition(nutrition);
+        return nutritionService.saveNutrition(nutritionDto);
     }
 
     @GetMapping(value = "/dish/{id}")
-    public Dish getDish(@PathVariable("id") Long id, HttpServletRequest request){
+    public DishDto getDish(@PathVariable("id") Long id, HttpServletRequest request){
         publishRequestEvent(request);
         return nutritionService.getDish(id);
     }
 
     @PostMapping(value = "/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Dish saveDish(@RequestBody Dish dish, HttpServletRequest request){
+    public DishDto saveDish(@RequestBody DishDto dishDto, HttpServletRequest request){
         publishRequestEvent(request);
-        return nutritionService.saveDish(dish);
+        return nutritionService.saveDish(dishDto);
     }
 
     private void publishRequestEvent(HttpServletRequest request){

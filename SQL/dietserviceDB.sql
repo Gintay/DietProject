@@ -1,3 +1,4 @@
+-- Used MySQL Database version 5.6.41.0
 CREATE DATABASE dietservice;
 CREATE TABLE dietservice.dish
 (

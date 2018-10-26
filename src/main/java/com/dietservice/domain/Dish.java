@@ -1,12 +1,9 @@
 package com.dietservice.domain;
 
+import com.dietservice.dto.DishDto;
 import com.dietservice.utils.DietServiceConstants;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Table(name = DietServiceConstants.DISH_TABLE_NAME)
@@ -18,6 +15,14 @@ public class Dish {
   private String name;
   private long calories;
 
+  public Dish(){
+  }
+
+  public Dish(DishDto dishDto){
+    this.id = dishDto.getId();
+    this.name = dishDto.getName();
+    this.calories = dishDto.getCalories();
+  }
 
   public long getId() {
     return id;
@@ -44,5 +49,4 @@ public class Dish {
   public void setCalories(long calories) {
     this.calories = calories;
   }
-
 }
