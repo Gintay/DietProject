@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
-public class DishController {
+public class DietController {
 
     private NutritionService nutritionService;
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public DishController(NutritionService nutritionService, ApplicationEventPublisher applicationEventPublisher){
+    public DietController(NutritionService nutritionService, ApplicationEventPublisher applicationEventPublisher){
         this.nutritionService = nutritionService;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -30,7 +30,7 @@ public class DishController {
         return nutritionService.getNutrition(id);
     }
 
-    @GetMapping(value = "/nutrition/dish/{id}")
+    @GetMapping(value = "/nutrition/{id}/dish")
     public DishDto getNutritionDish (@PathVariable("id") Long id, HttpServletRequest request) {
         publishRequestEvent(request);
         return nutritionService.getNutritionDish(id);
