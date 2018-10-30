@@ -36,7 +36,23 @@ public class NutritionServiceImpl implements NutritionService {
 
     @Override
     public NutritionDto saveNutrition(NutritionDto nutritionDto) {
-        Nutrition nutrition = new Nutrition(nutritionDto);
+        Nutrition nutrition = null;
+
+        // if only dish id is set, to nutrition is added existing dish
+        DishDto dishDto = nutritionDto.getDishDto();
+        if (dishDto.getId() != 0 && dishDto.getName() == null && dishDto.getCalories() == 0){
+            nutrition = new Nutrition();
+            nutrition.setId(nutritionDto.getId());
+            nutrition.setDate(nutritionDto.getDate());
+
+            Dish dish = dishDAO.get(dishDto.getId());
+            nutrition.setDish(dish);
+
+            nutrition.setWeight(nutritionDto.getWeight());
+        } else {
+            nutrition = new Nutrition(nutritionDto);
+        }
+
         Nutrition resultNutrition = nutritionDAO.save(nutrition);
         NutritionDto resultNutritionDto1 = new NutritionDto(resultNutrition);
         return resultNutritionDto1;
