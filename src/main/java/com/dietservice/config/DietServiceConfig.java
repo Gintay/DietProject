@@ -9,16 +9,18 @@ import com.dietservice.filter.AuthenticationFilter;
 import com.dietservice.repository.DishRepository;
 import com.dietservice.repository.NutritionRepository;
 import com.dietservice.service.NutritionService;
+import com.dietservice.utils.servletListener.DietServiceRequestListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@EnableWebMvc
 @Configuration
+@EnableWebMvc
 public class DietServiceConfig {
 
     @Bean
@@ -46,5 +48,14 @@ public class DietServiceConfig {
                                                            @Autowired ApplicationEventPublisher applicationEventPublisher){
         return new ServletRegistrationBean(new ConsumedCaloriesServlet(nutritionService, applicationEventPublisher),
                 "/consumedCalories/*");
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<DietServiceRequestListener> listenerRegistrationBean() {
+        ServletListenerRegistrationBean<DietServiceRequestListener> servletListenerRegistrationBean =
+                new ServletListenerRegistrationBean<>();
+        servletListenerRegistrationBean.setListener(new DietServiceRequestListener());
+        return servletListenerRegistrationBean;
+
     }
 }
