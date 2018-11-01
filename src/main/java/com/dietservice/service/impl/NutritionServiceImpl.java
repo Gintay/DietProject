@@ -61,12 +61,10 @@ public class NutritionServiceImpl implements NutritionService {
 
     @Override
     public SummaryCaloriesDto getSummaryCaloriesJSON(Date date) {
-        long summaryResult = getSummaryCallories(date);
+        long summaryCalories = getSummaryCallories(date);
+        SummaryCaloriesDto summaryCaloriesDto = new SummaryCaloriesDto(summaryCalories);
 
-        SummaryCaloriesDto summaryCalories = new SummaryCaloriesDto();
-        summaryCalories.setCalories(summaryResult);
-
-        return summaryCalories;
+        return summaryCaloriesDto;
     }
 
     @Override

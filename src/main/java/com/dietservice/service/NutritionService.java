@@ -2,8 +2,6 @@ package com.dietservice.service;
 
 import com.dietservice.domain.Dish;
 import com.dietservice.domain.Nutrition;
-import com.dietservice.dto.DishDto;
-import com.dietservice.dto.NutritionDto;
 import com.dietservice.dto.SummaryCaloriesDto;
 
 import java.awt.image.BufferedImage;
