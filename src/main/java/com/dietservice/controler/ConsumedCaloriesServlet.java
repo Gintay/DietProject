@@ -1,9 +1,7 @@
 package com.dietservice.controler;
 
 import com.dietservice.service.NutritionService;
-import com.dietservice.utils.listener.RequestEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -23,12 +21,10 @@ import java.util.Date;
 public class ConsumedCaloriesServlet extends HttpServlet {
 
     private NutritionService nutritionService;
-    private ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public ConsumedCaloriesServlet(NutritionService nutritionService, ApplicationEventPublisher applicationEventPublisher){
+    public ConsumedCaloriesServlet(NutritionService nutritionService){
         this.nutritionService = nutritionService;
-        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -38,9 +34,6 @@ public class ConsumedCaloriesServlet extends HttpServlet {
         String pathInfo = "";
 
         try {
-            RequestEvent requestEvent = new RequestEvent(this, request);
-            applicationEventPublisher.publishEvent(requestEvent);
-
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             pathInfo = request.getPathInfo();
 
@@ -54,7 +47,7 @@ public class ConsumedCaloriesServlet extends HttpServlet {
                 ImageIO.write(bufferedImage, "png", out);
                 out.close();
             } else {
-                writeResponse(response, nutritionService.getSummaryCalloriesJSON(sqlDate));
+                writeResponse(response, nutritionService.getSummaryCaloriesJSON(sqlDate));
             }
         } catch (ParseException exc) {
             writeResponse(response, String.format("Failed to parse date %s. %s", pathInfo,  exc.getMessage()));

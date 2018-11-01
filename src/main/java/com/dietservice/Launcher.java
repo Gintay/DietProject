@@ -8,9 +8,7 @@ import java.util.HashMap;
 @SpringBootApplication
 public class Launcher {
     public static void main(String[] args) {
-        HashMap<String, Object> props = new HashMap<>();
-        props.put("server.port", 8585);
-        SpringApplicationBuilder application = new SpringApplicationBuilder().sources(Launcher.class).properties(props);
+        SpringApplicationBuilder application = new SpringApplicationBuilder(Launcher.class);
         application.run(args);
     }
 }

@@ -4,17 +4,17 @@ import com.dietservice.domain.Dish;
 import com.dietservice.domain.Nutrition;
 import com.dietservice.dto.DishDto;
 import com.dietservice.dto.NutritionDto;
-import org.json.JSONObject;
+import com.dietservice.dto.SummaryCaloriesDto;
 
 import java.awt.image.BufferedImage;
 import java.sql.Date;
 
 public interface NutritionService {
-    NutritionDto getNutrition(Long id);
-    NutritionDto saveNutrition(NutritionDto nutritionDto);
-    DishDto getNutritionDish(Long id);
-    JSONObject getSummaryCalloriesJSON(Date date);
+    Nutrition getNutrition(Long id);
+    Nutrition saveNutrition(Nutrition nutritionDto);
+    Dish getNutritionDish(Long id);
+    SummaryCaloriesDto getSummaryCaloriesJSON(Date date);
     BufferedImage getSummaryCaloriesImage(Date date);
-    DishDto getDish(Long id);
-    DishDto saveDish(DishDto dish);
+    Dish getDish(Long id);
+    Dish saveDish(Dish dish);
 }

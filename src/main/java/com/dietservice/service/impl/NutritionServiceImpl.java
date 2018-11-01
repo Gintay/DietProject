@@ -4,10 +4,8 @@ import com.dietservice.dao.dish.DishDAO;
 import com.dietservice.dao.nutrition.NutritionDAO;
 import com.dietservice.domain.Dish;
 import com.dietservice.domain.Nutrition;
-import com.dietservice.dto.DishDto;
-import com.dietservice.dto.NutritionDto;
+import com.dietservice.dto.SummaryCaloriesDto;
 import com.dietservice.service.NutritionService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,49 +27,46 @@ public class NutritionServiceImpl implements NutritionService {
     }
 
     @Override
-    public NutritionDto getNutrition(Long id) {
-        NutritionDto nutritionDto = new NutritionDto(nutritionDAO.get(id));
-        return nutritionDto;
+    public Nutrition getNutrition(Long id) {
+        return nutritionDAO.get(id);
     }
 
     @Override
-    public NutritionDto saveNutrition(NutritionDto nutritionDto) {
-        Nutrition nutrition = null;
+    public Nutrition saveNutrition(Nutrition nutrition) {
+        Nutrition newNutrition = null;
 
         // if only dish id is set, to nutrition is added existing dish
-        DishDto dishDto = nutritionDto.getDishDto();
-        if (dishDto.getId() != 0 && dishDto.getName() == null && dishDto.getCalories() == 0){
-            nutrition = new Nutrition();
-            nutrition.setId(nutritionDto.getId());
-            nutrition.setDate(nutritionDto.getDate());
+        Dish dish = nutrition.getDish();
+        if (dish.getId() != 0 && dish.getName() == null && dish.getCalories() == 0){
+            newNutrition = new Nutrition();
+            newNutrition.setId(nutrition.getId());
+            newNutrition.setDate(nutrition.getDate());
 
-            Dish dish = dishDAO.get(dishDto.getId());
-            nutrition.setDish(dish);
+            Dish savedDish = dishDAO.get(dish.getId());
+            newNutrition.setDish(savedDish);
 
-            nutrition.setWeight(nutritionDto.getWeight());
+            newNutrition.setWeight(nutrition.getWeight());
+
         } else {
-            nutrition = new Nutrition(nutritionDto);
+            newNutrition = nutrition;
         }
 
-        Nutrition resultNutrition = nutritionDAO.save(nutrition);
-        NutritionDto resultNutritionDto1 = new NutritionDto(resultNutrition);
-        return resultNutritionDto1;
+        return nutritionDAO.save(newNutrition);
     }
 
     @Override
-    public DishDto getNutritionDish(Long id) {
-        DishDto dishDto = new DishDto(nutritionDAO.get(id).getDish());
-        return dishDto;
+    public Dish getNutritionDish(Long id) {
+        return nutritionDAO.get(id).getDish();
     }
 
     @Override
-    public JSONObject getSummaryCalloriesJSON(Date date) {
+    public SummaryCaloriesDto getSummaryCaloriesJSON(Date date) {
         long summaryResult = getSummaryCallories(date);
 
-        JSONObject resultJSON = new JSONObject();
-        resultJSON.append("calories", summaryResult);
+        SummaryCaloriesDto summaryCalories = new SummaryCaloriesDto();
+        summaryCalories.setCalories(summaryResult);
 
-        return resultJSON;
+        return summaryCalories;
     }
 
     @Override
@@ -102,16 +97,12 @@ public class NutritionServiceImpl implements NutritionService {
     }
 
     @Override
-    public DishDto getDish(Long id) {
-        DishDto dishDto = new DishDto(dishDAO.get(id));
-        return dishDto;
+    public Dish getDish(Long id) {
+        return dishDAO.get(id);
     }
 
     @Override
-    public DishDto saveDish(DishDto dishDto) {
-        Dish dish = new Dish(dishDto);
-        Dish resultDish = dishDAO.save(dish);
-        DishDto resultDishDto = new DishDto(resultDish);
-        return resultDishDto;
+    public Dish saveDish(Dish dish) {
+        return dishDAO.save(dish);
     }
 }
