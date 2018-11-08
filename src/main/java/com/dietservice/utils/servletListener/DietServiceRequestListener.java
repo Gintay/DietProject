@@ -16,11 +16,12 @@ public class DietServiceRequestListener implements ServletRequestListener {
     public void requestInitialized(ServletRequestEvent requestEvent) {
         ServletRequest request = requestEvent.getServletRequest();
         String requestURI = "unknown";
-        if (requestEvent.getServletRequest() instanceof HttpServletRequest){
-            HttpServletRequest httpServletRequest = (HttpServletRequest) requestEvent.getServletRequest();
+        if (request instanceof HttpServletRequest){
+            HttpServletRequest httpServletRequest = (HttpServletRequest) request;
             requestURI = httpServletRequest.getRequestURI();
         }
-        logger.info(String.format("Received request from host - %s port - %d. Requested resource - %s", request.getRemoteHost(), request.getRemotePort(), requestURI));
+        logger.info(String.format("Received request from host - %s port - %d. Requested resource - %s",
+                request.getRemoteHost(), request.getRemotePort(), requestURI));
     }
 
     @Override

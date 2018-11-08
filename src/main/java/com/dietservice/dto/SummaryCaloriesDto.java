@@ -17,4 +17,9 @@ public class SummaryCaloriesDto {
     public void setCalories(long calories) {
         this.calories = calories;
     }
+
+    public String toJSON(){
+        String formatJSON = String.format("{\"calories\":%d}", calories);
+        return formatJSON;
+    }
 }
