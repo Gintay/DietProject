@@ -4,7 +4,6 @@ import com.dietservice.service.NutritionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ import java.util.Date;
 
 public class ConsumedCaloriesServlet extends HttpServlet {
 
-    private NutritionService nutritionService;
+    private final NutritionService nutritionService;
 
     @Autowired
     public ConsumedCaloriesServlet(NutritionService nutritionService){
@@ -29,7 +28,7 @@ public class ConsumedCaloriesServlet extends HttpServlet {
 
     @Override
     protected void doGet (HttpServletRequest request,
-                          HttpServletResponse response) throws ServletException, IOException {
+                          HttpServletResponse response) throws IOException {
 
         String pathInfo = "";
 

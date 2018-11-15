@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class DietController {
 
-    private NutritionService nutritionService;
+    private final NutritionService nutritionService;
 
     @Autowired
     public DietController(NutritionService nutritionService){

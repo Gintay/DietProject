@@ -9,7 +9,7 @@ import com.dietservice.filter.AuthenticationFilter;
 import com.dietservice.repository.DishRepository;
 import com.dietservice.repository.NutritionRepository;
 import com.dietservice.service.NutritionService;
-import com.dietservice.utils.servletListener.DietServiceRequestListener;
+import com.dietservice.utils.servlet_listener.DietServiceRequestListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;

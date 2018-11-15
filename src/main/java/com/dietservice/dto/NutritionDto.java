@@ -7,7 +7,7 @@ import java.sql.Date;
 public class NutritionDto {
 
     private long id;
-    private java.sql.Date date;
+    private Date date;
     private DishDto dishDto;
     private long weight;
 

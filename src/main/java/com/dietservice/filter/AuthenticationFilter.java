@@ -38,7 +38,7 @@ public class AuthenticationFilter implements Filter {
                     String userpassEncoded = authorization.substring(BASIC_AUTHORIZATION.length());
                     byte[] decodedBytes = Base64.getDecoder().decode(userpassEncoded);
                     String userpassDecoded = new String(decodedBytes, StandardCharsets.UTF_8);
-                    String credentials[] = userpassDecoded.split(":");
+                    String[] credentials = userpassDecoded.split(":");
                     String username = credentials[0];
                     String password = credentials[1];
 
@@ -50,7 +50,7 @@ public class AuthenticationFilter implements Filter {
                 }
             }
         } catch (Exception exc){
-            logger.error("Authorization failed. " + exc.getMessage());
+            logger.error("Authorization failed. {}", exc.getMessage());
         }
 
         if (!authorizationSucceed){

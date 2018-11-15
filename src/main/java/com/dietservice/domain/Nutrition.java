@@ -4,6 +4,7 @@ import com.dietservice.dto.NutritionDto;
 import com.dietservice.utils.DietServiceConstants;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = DietServiceConstants.NUTRITION_TABLE_NAME)
@@ -12,7 +13,7 @@ public class Nutrition {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
-  private java.sql.Date date;
+  private Date date;
 
   @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Dish.class)
   @JoinColumn(name = "dishid", referencedColumnName = "id")
@@ -39,11 +40,11 @@ public class Nutrition {
   }
 
 
-  public java.sql.Date getDate() {
+  public Date getDate() {
     return date;
   }
 
-  public void setDate(java.sql.Date date) {
+  public void setDate(Date date) {
     this.date = date;
   }
 

@@ -17,8 +17,8 @@ import java.util.List;
 @Service
 public class NutritionServiceImpl implements NutritionService {
 
-    private DishDAO dishDAO;
-    private NutritionDAO nutritionDAO;
+    private final DishDAO dishDAO;
+    private final NutritionDAO nutritionDAO;
 
     @Autowired
     public NutritionServiceImpl(NutritionDAO nutritionDAO, DishDAO dishDAO){

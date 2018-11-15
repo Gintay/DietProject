@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class DishDAOImpl implements DishDAO {
 
-    private DishRepository dishRepository;
+    private final DishRepository dishRepository;
 
     @Autowired
     public DishDAOImpl(DishRepository dishRepository){

@@ -1,4 +1,4 @@
-package com.dietservice.utils.servletListener;
+package com.dietservice.utils.servlet_listener;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestEvent;
@@ -20,8 +20,8 @@ public class DietServiceRequestListener implements ServletRequestListener {
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
             requestURI = httpServletRequest.getRequestURI();
         }
-        logger.info(String.format("Received request from host - %s port - %d. Requested resource - %s",
-                request.getRemoteHost(), request.getRemotePort(), requestURI));
+        logger.info("Received request from host - {} port - {}. Requested resource - {}",
+                request.getRemoteHost(), request.getRemotePort(), requestURI);
     }
 
     @Override
